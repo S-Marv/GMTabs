@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Configurations>
+    <TabConfig>
+        <contentPath>https://google.com</contentPath>
+        <iconPath>images/image.PNG</iconPath>
+        <isFile>false</isFile>
+        <color>0x00ffffff</color>
+        <KeyCombination>
+            <control>UP</control>
+            <alt>UP</alt>
+            <meta>UP</meta>
+            <shift>UP</shift>
+            <key>C</key>
+        </KeyCombination>
+    </TabConfig>
+    <TabConfig>
+        <contentPath>website.com</contentPath>
+        <isFile>false</isFile>
+        <KeyCombination>
+            <control>DOWN</control>
+            <alt>DOWN</alt>
+            <meta>DOWN</meta>
+            <shift>DOWN</shift>
+            <key>F2</key>
+        </KeyCombination>
+    </TabConfig>
+</Configurations>
