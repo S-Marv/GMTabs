@@ -1,6 +1,5 @@
 module dev.wick.gmtabs {
-	requires javafx.controls;
-	requires java.xml;
+	requires javafx.web;
 
 	exports dev.wick.gmtabs;
 }
