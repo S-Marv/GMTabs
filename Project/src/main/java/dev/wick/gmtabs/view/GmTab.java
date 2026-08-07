@@ -1,12 +1,14 @@
 package dev.wick.gmtabs.view;
 
+import dev.wick.gmtabs.tab.TabContent;
+import dev.wick.gmtabs.view.content.TabContentDisplay;
 import javafx.scene.control.Tab;
-import javafx.scene.web.WebView;
 
 class GmTab extends Tab {
 	GmTab(){
-		WebView webView = new WebView();
-		webView.getEngine().load("https://google.com");
-		setContent(webView);
+		TabContent tabContent = new TabContent(false, "https://google.com");
+		TabContentDisplay tabContentDisplay = new TabContentDisplay(tabContent);
+		setContent(tabContentDisplay);
+		setText(String.valueOf(tabContent.pathIsFile()));
 	}
 }
