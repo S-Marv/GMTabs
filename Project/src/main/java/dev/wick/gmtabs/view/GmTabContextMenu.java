@@ -27,7 +27,7 @@ public class GmTabContextMenu extends ContextMenu {
 
 	@Override
 	protected void show() {
+		deleteItem.setDisable(parentTab.getTabPane().getTabs().size()==1);
 		super.show();
-		//deleteItem.setDisable(parentTab.isOnlyTab());
 	}
 }
