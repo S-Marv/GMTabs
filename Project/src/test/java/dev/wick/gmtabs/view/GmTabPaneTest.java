@@ -1,7 +1,6 @@
 package dev.wick.gmtabs.view;
 
 import dev.wick.gmtabs.TestUtils;
-import dev.wick.gmtabs.files.ConfigFile;
 import javafx.application.Platform;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;

@@ -27,11 +27,12 @@ public class GmTabPane extends TabPane {
 	private final Editor editor = new Editor();
 
 	/**
-	 * @param file
+	 * @param file File to read tab configs from. If the file does not exit, it will create it.
 	 * @param loadContent Web viewer will not be loaded if {@code false}. Mainly for testing.
 	 */
 	public GmTabPane(File file, boolean loadContent){
 		this.configFile = new ConfigFile(file);
+		if(!file.exists()) save();
 		this.loadContent = loadContent;
 		load();
 		getTabs().addListener(listListener);

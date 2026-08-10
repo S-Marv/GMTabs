@@ -1,6 +1,5 @@
 package dev.wick.gmtabs;
 
-import dev.wick.gmtabs.files.ConfigFile;
 import dev.wick.gmtabs.view.GmTabPane;
 import javafx.application.Application;
 import javafx.scene.Scene;

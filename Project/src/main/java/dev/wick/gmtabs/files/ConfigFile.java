@@ -19,10 +19,6 @@ public class ConfigFile {
 
 	private final File file;
 
-	public ConfigFile(String filePath){
-		this.file = new File(filePath);
-	}
-
 	public ConfigFile(File file){
 		this.file = file;
 	}
