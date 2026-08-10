@@ -20,13 +20,16 @@ public class WebController {
 	private TabContent content;
 	private File contentFile;
 
+	WebController(){
+		addLogging();
+	}
+
 	void setContent(TabContent content) {
 		this.content = content;
 		if(content.pathIsFile()) contentFile = new File(content.path());
-		addLogging();
-		webView.getEngine().locationProperty().addListener(this::update);
 		String url = content.pathIsFile()? "file:///"+contentFile.getAbsolutePath() : content.path();
 		webView.getEngine().load(url);
+		System.out.println(content);
 	}
 
 	private void update(Observable observable) {
@@ -52,13 +55,15 @@ public class WebController {
 	}
 
 	private void addLogging() {
-		webView.getEngine().setOnError(event->{
+		WebEngine engine = webView.getEngine();
+		engine.locationProperty().addListener(this::update);
+		engine.setOnError(event->{
 			System.out.println(event.toString());
 			throw new RuntimeException(event.getException());
 		});
-		webView.getEngine().getLoadWorker().messageProperty().addListener(
+		engine.getLoadWorker().messageProperty().addListener(
 				(_, _, newString) -> Platform.runLater(()->System.out.println(newString)));
-		webView.getEngine().getLoadWorker().progressProperty().addListener((_,_, d)->
-				System.out.println(d));
+		engine.getLoadWorker().progressProperty().addListener((_,_, d)->
+				System.out.println(d.doubleValue()*100 +"%"));
 	}
 }

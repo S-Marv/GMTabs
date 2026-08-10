@@ -1,10 +1,12 @@
 package dev.wick.gmtabs;
 
+import dev.wick.gmtabs.files.ConfigFile;
 import dev.wick.gmtabs.view.GmTabPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +17,7 @@ public class HelloApplication extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		Scene scene = new Scene(new GmTabPane(), 1000, 720);
+		Scene scene = new Scene(new GmTabPane(new File("./tabs.xml"), true), 1000, 720);
 		if(telemetry) title += TELEMETRY_ADDENDUM;
 		stage.setTitle(title);
 		stage.setScene(scene);

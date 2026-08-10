@@ -11,15 +11,13 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 
 public class ConfigFile {
-	private final File file;
 	private static final DocumentBuilderFactory factory =DocumentBuilderFactory.newInstance();
+
+	private final File file;
 
 	public ConfigFile(String filePath){
 		this.file = new File(filePath);
@@ -31,7 +29,6 @@ public class ConfigFile {
 
 	public void save(List<TabConfig> configurations){
 		try {
-			System.out.println(file.getAbsolutePath());
 			ConfigXMLBuilder builder = new ConfigXMLBuilder(factory.newDocumentBuilder());
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			DOMSource source = new DOMSource(builder.build(configurations));
@@ -42,7 +39,8 @@ public class ConfigFile {
 		}
 	}
 
-	public List<TabConfig> load(){
+	public List<TabConfig> load() throws FileNotFoundException {
+		if(!file.exists()) throw new FileNotFoundException();
 		try{
 			return parse(factory.newDocumentBuilder().parse(file));
 		} catch (ParserConfigurationException | IOException | SAXException e) {

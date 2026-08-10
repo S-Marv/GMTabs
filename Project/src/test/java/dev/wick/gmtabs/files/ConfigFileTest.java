@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
@@ -49,7 +50,7 @@ public class ConfigFileTest {
 	}
 
 	@Test
-	public void testSave() {
+	public void testSave() throws FileNotFoundException {
 		ConfigFile configFile = new ConfigFile(Paths.get(TEST_DIRECTORY.getPath(), "testSave.xml").toFile());
 		configFile.save(testConfigurations);
 		Assertions.assertEquals(testConfigurations, configFile.load());

@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.10.2</junit.version>
+        <junit.version>5.11.4</junit.version>
         <openjfx.version>25.0.4</openjfx.version>
         <appModule>dev.wick.gmtabs</appModule>
         <mainClass>${appModule}/${appModule}.HelloApplication</mainClass>

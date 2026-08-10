@@ -18,8 +18,10 @@ public class TabContentDisplay extends VBox {
 	private final Node zoomUi = webController.getZoomUi();
 	private final Tooltip tooltip = new Tooltip();
 
-	public TabContentDisplay(TabContent content){
-		webController.setContent(content);
+	/**
+	 *
+	 */
+	public TabContentDisplay(){
 		setAnchors(webController.getWebView());
 		urlLabel.setAlignment(Pos.CENTER);
 		urlLabel.setWrapText(false);
@@ -44,5 +46,9 @@ public class TabContentDisplay extends VBox {
 
 	public Tooltip getTooltip() {
 		return tooltip;
+	}
+
+	public void setContent(TabContent tabContent) {
+		webController.setContent(tabContent);
 	}
 }
