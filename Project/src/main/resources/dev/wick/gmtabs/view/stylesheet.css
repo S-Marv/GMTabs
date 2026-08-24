@@ -1,0 +1,11 @@
+
+/* editor styles*/
+.editor-box{
+	-fx-alignment: top-center;
+	-fx-spacing: 5px;
+}
+
+.editor-grid{
+	-fx-hgap: 10;
+	-fx-vgap: 10;
+}

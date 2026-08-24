@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 
 import java.util.Optional;
 
@@ -15,12 +16,14 @@ public class Editor {
 	private final EditorForm editorForm;
 	private final Node acceptButton;
 
-	public Editor(){
-		dialog.getDialogPane().getButtonTypes().addAll(ACCEPT, ButtonType.CANCEL);
-		acceptButton = dialog.getDialogPane().lookupButton(ACCEPT);
+	public Editor(String stylesheet){
+		DialogPane dialogPane = dialog.getDialogPane();
+		dialogPane.getStylesheets().add(stylesheet);
+		dialogPane.getButtonTypes().addAll(ACCEPT, ButtonType.CANCEL);
+		acceptButton = dialogPane.lookupButton(ACCEPT);
 		dialog.setResultConverter(this::convert);
 		editorForm = new EditorForm(this::refresh, null);
-		dialog.getDialogPane().setContent(new FormBox(editorForm));
+		dialogPane.setContent(new FormBox(editorForm));
 	}
 
 	public Optional<TabConfig> showAndWait(TabConfig baseConfig){

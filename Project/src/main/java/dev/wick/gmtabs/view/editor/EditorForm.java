@@ -31,7 +31,7 @@ class EditorForm {
 		Consumer<Boolean> finalOnUpdate = onUpdate==null? _->{} : onUpdate ;
 		ChangeListener<? super Object> listener = (_, _, _)-> finalOnUpdate.accept(isValid());
 		for(ObservableValue<?> observable : List.of(
-				webPath.isEmpty(), isFileProperty, iconPath.isEmpty(), graphicColor, keybinding)){
+				webPath.isEmpty(), isFileProperty, keybinding)){
 			observable.addListener(listener);
 		}
 		finalOnUpdate.accept(isValid());
@@ -44,7 +44,6 @@ class EditorForm {
 		TabGraphic graphic = config.getTabGraphic();
 		iconPath.set(graphic.iconPath());
 		graphicColor.set(graphic.color());
-		System.out.println(config);
 		keybinding.set(config.getKeyCombination());
 	}
 
@@ -59,8 +58,18 @@ class EditorForm {
 		return isFileProperty.get() ? filePath : webPath;
 	}
 
+	/**
+	 * @return exact same as getTabConfig, but checks if the form is valid before returning.
+	 */
 	TabConfig constructConfig(){
 		if(!isValid()) throw IncompleteFormException.create(this);
+		return getTabConfig();
+	}
+
+	/**
+	 * @return the TabConfig from the form.
+	 */
+	TabConfig getTabConfig() {
 		boolean isFile = isFileProperty.get();
 		TabContent content = new TabContent(isFile, getSelectedPath().get());
 		TabGraphic graphic = new TabGraphic(iconPath.get(), graphicColor.get());

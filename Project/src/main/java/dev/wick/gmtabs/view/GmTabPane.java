@@ -16,23 +16,26 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GmTabPane extends TabPane {
 	static final TabConfig DEFAULT_TAB = new TabConfig(
 			TabGraphic.EMPTY_GRAPHIC,
 			new TabContent(false, "https://google.com"), new KeyCodeCombination(KeyCode.F2));
 
+	private static final String STYLESHEET = Objects.requireNonNull(GmTabPane.class.getResource("stylesheet.css")).toExternalForm();
+
 	private final ConfigFile configFile;
 	private final boolean loadContent;
-	private final Editor editor = new Editor();
+	private final Editor editor = new Editor(STYLESHEET);
 
 	/**
 	 * @param file File to read tab configs from. If the file does not exit, it will create it.
 	 * @param loadContent Web viewer will not be loaded if {@code false}. Mainly for testing.
 	 */
 	public GmTabPane(File file, boolean loadContent){
+		getStylesheets().add(STYLESHEET);
 		this.configFile = new ConfigFile(file);
-		if(!file.exists()) save();
 		this.loadContent = loadContent;
 		load();
 		getTabs().addListener(listListener);

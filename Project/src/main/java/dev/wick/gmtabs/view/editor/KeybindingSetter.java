@@ -4,30 +4,34 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
 
-public class KeybindingSetter extends ToggleButton implements EditorOption{
+public class KeybindingSetter extends EditorOption{
 	private static final String DEFAULT_TEXT = "Press to Bind Key";
-	private final Label label = new Label("Set Keybind", this);
+	private final ToggleButton toggleButton;
 	private final ObjectProperty<KeyCodeCombination> combinationProperty;
 
-	public KeybindingSetter(double prefWidth, ObjectProperty<KeyCodeCombination> combinationProperty){
-		super(combinationProperty.get()==null? DEFAULT_TEXT : combinationProperty.get().getDisplayText());
+	public KeybindingSetter(ObjectProperty<KeyCodeCombination> combinationProperty){
+		super("Set Keybind");
 		this.combinationProperty = combinationProperty;
-		setPrefWidth(prefWidth);
-		setOnKeyPressed(this::processKeyPress);
-		setOnAction(this::processClick);
-		focusedProperty().addListener(this::processFocusChange);
+		toggleButton = makeToggleButton();
 		combinationProperty.addListener(_->refreshText());
 	}
 
+	private ToggleButton makeToggleButton() {
+		ToggleButton button = new ToggleButton(combinationProperty.get()==null? DEFAULT_TEXT : combinationProperty.get().getDisplayText());
+		button.setOnKeyPressed(this::processKeyPress);
+		button.setOnAction(this::processClick);
+		button.focusedProperty().addListener(this::processFocusChange);
+		return format(button);
+	}
+
 	private void processKeyPress(KeyEvent event){
-		if(!isSelected()) return;
+		if(!toggleButton.isSelected()) return;
 		if(!event.getCode().isModifierKey()) {
-			selectedProperty().set(false);
+			toggleButton.setSelected(false);
 			combinationProperty.set(KeyEventConverter.convert(event));
 		}
 		event.consume();
@@ -40,27 +44,22 @@ public class KeybindingSetter extends ToggleButton implements EditorOption{
 	}
 
 	private void processFocusChange(ObservableValue<? extends Boolean> ignored, Boolean wasFocused, Boolean isFocused){
-		if(wasFocused && !isFocused && selectedProperty().get()) {
-			selectedProperty().set(false);
+		if(wasFocused && !isFocused && toggleButton.selectedProperty().get()) {
+			toggleButton.setSelected(false);
 			refreshText();
 		}
 	}
 
 	@Override
-	public Node getLabel() {
-		return label;
-	}
-
-	@Override
 	public Node getNode() {
-		return this;
+		return toggleButton;
 	}
 
 	private void refreshText(){
 		String newText = combinationProperty.get()!=null? combinationProperty.get().getDisplayText() :
-				selectedProperty().get()? "Listening" :
+				toggleButton.isSelected()? "Listening" :
 				DEFAULT_TEXT;
-		setText(newText);
+		toggleButton.setText(newText);
 		System.out.println(combinationProperty.get());
 	}
 }
