@@ -11,6 +11,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 class GmTabPaneTest {
@@ -20,17 +21,17 @@ class GmTabPaneTest {
 	@BeforeAll
 	static void makeTestDir(){
 		testDir = TestUtils.makeTestDir("paneTest");
-		Platform.startup(()->{});
+		TestUtils.requestPlatform();
 	}
 
 	@Test
 	void testLoading_default(){
-		GmTabPane tabPane = makeTabPane("nonexistentFileName");
+		GmTabPane tabPane = makeTabPane();
 		Assertions.assertEquals(List.of(GmTabPane.DEFAULT_TAB), tabPane.getTabConfigs());
 	}
 
-	private GmTabPane makeTabPane(String targetFileName){
-		File configFile = Path.of(testDir.getPath(), targetFileName).toFile();
+	private GmTabPane makeTabPane(){
+		File configFile = Path.of(testDir.getPath(), "nonexistentFileName").toFile();
 		CountDownLatch latch = new CountDownLatch(1);
 		AtomicReference<GmTabPane> pane = new AtomicReference<>();
 		Platform.runLater(()->{
@@ -38,7 +39,7 @@ class GmTabPaneTest {
 			latch.countDown();
 		});
 		try {
-			latch.await();
+			if(!latch.await(5, TimeUnit.SECONDS)) throw new RuntimeException("Did not return");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
@@ -47,6 +48,6 @@ class GmTabPaneTest {
 
 	@AfterAll
 	static void shutdown(){
-		Platform.exit();
+		TestUtils.requestPlatformShutdown();
 	}
 }
