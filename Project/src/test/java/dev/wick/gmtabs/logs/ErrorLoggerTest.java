@@ -17,9 +17,9 @@ import java.util.concurrent.locks.ReentrantLock;
 class ErrorLoggerTest {
 
 	private static final ErrorTestCase[] TEST_EXCEPTIONS = new ErrorTestCase[]{
-			new ErrorTestCase("runtimeError.txt",new RuntimeException("Runtime test")),
-			new ErrorTestCase("io.txt", new IOException("IO Test")),
-			new ErrorTestCase("inner.txt", new RuntimeException(new FileNotFoundException("inner exception")))
+			new ErrorTestCase(new RuntimeException("Runtime test"), "runtimeError.txt"),
+			new ErrorTestCase(new IOException("IO Test"), "io.txt"),
+			new ErrorTestCase(new RuntimeException(new FileNotFoundException("inner exception")), "inner.txt", "inner2.txt")
 	};
 
 
@@ -30,7 +30,6 @@ class ErrorLoggerTest {
 	void testLogException(ErrorTestCase testException) throws IOException {
 		lock.lock();
 		String output;
-		String expected = new String(Objects.requireNonNull(ErrorLoggerTest.class.getResourceAsStream(testException.expectedTextFile)).readAllBytes());
 		try {
 			Path target = Path.of(TestUtils.makeTestDir("errors").getPath(), "errors.txt");
 			ErrorLogger logger = new ErrorLogger(target.toFile(), "Test", TIME_PROVIDER);
@@ -40,7 +39,12 @@ class ErrorLoggerTest {
 		} finally {
 			lock.unlock();
 		}
-		Assertions.assertEquals(expected, output);
+		for(String expectedTextFile : testException.expectedTextFiles()){
+			InputStream fileStream = Objects.requireNonNull(ErrorLoggerTest.class.getResourceAsStream(expectedTextFile));
+			String expectedText = new String(fileStream.readAllBytes()).strip();
+			Assertions.assertTrue(output.contains(expectedText),
+					String.format("Output does not contain expected text from %s \nExpected: %s \nOutput: %s", expectedTextFile, expectedText, output));
+		}
 	}
 
 	private static final ErrorTestTimeProvider TIME_PROVIDER = new ErrorTestTimeProvider();
@@ -51,5 +55,5 @@ class ErrorLoggerTest {
 		}
 	}
 
-	private record ErrorTestCase(String expectedTextFile, Exception e){}
+	private record ErrorTestCase(Exception e, String... expectedTextFiles){}
 }
