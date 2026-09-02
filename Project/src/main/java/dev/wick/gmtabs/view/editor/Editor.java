@@ -26,6 +26,10 @@ public class Editor {
 		dialogPane.setContent(new FormBox(editorForm));
 	}
 
+	/**
+	 * @param baseConfig The config the form should be set to initially. May be {@code null} to have an empty form.
+	 * @return The result of the form, which may or may not be present.
+	 */
 	public Optional<TabConfig> showAndWait(TabConfig baseConfig){
 		editorForm.set(baseConfig);
 		return dialog.showAndWait();

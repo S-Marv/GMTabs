@@ -8,15 +8,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
 
 public class TabGraphicNode extends VBox {
-	private final static int LABEL_HEIGHT = 15;
-	public final static int TAB_WIDTH = 70;
+	private final static int LABEL_HEIGHT = 10;
+	public final static int TAB_WIDTH = 50;
 	public final static int TAB_HEIGHT = TAB_WIDTH + LABEL_HEIGHT;
 	public static final Image ICON = new Image(Objects.requireNonNull(TabGraphicNode.class.getResourceAsStream("icon.png")));
 
@@ -38,10 +41,11 @@ public class TabGraphicNode extends VBox {
 
 	private Label makeKeybindDisplay() {
 		Label keybinding = new Label();
-		keybinding.setFont(Font.font(20));
+		keybinding.setFont(Font.font(15));
 		keybinding.setMaxWidth(TAB_WIDTH);
 		keybinding.setMaxHeight(LABEL_HEIGHT);
 		keybinding.setAlignment(Pos.CENTER);
+		keybinding.setWrapText(true);
 		return keybinding;
 	}
 
@@ -63,6 +67,23 @@ public class TabGraphicNode extends VBox {
 		KeyCodeCombination combination = config.getKeyCombination();
 		keybinding.setText(combination==null? "" : combination.getName());
 		formatIcon(tabGraphic.iconPath());
-		setBackground(Background.fill(tabGraphic.color()));
+		setColors(tabGraphic.color());
+	}
+
+	private void setColors(Color background) {
+		setBackground(Background.fill(background));
+		boolean useDarkText = false;
+		if(background.getOpacity() < 0.5) {
+			useDarkText = true;
+		} else {
+			for(double value : new double[]{background.getRed(), background.getBlue(), background.getGreen()}){
+				if (value > 0.7) {
+					useDarkText = true;
+					break;
+				}
+			}
+		}
+		Color textColor = useDarkText ? Color.BLACK : Color.WHITE;
+		keybinding.setTextFill(textColor);
 	}
 }

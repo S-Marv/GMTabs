@@ -3,6 +3,7 @@ package dev.wick.gmtabs.view;
 import dev.wick.gmtabs.tab.TabConfig;
 import dev.wick.gmtabs.view.content.TabContentDisplay;
 import dev.wick.gmtabs.view.editor.Editor;
+import dev.wick.gmtabs.view.editor.TabGraphicNode;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -14,13 +15,15 @@ import java.util.Optional;
 class GmTab extends Tab {
 	private final ObjectProperty<TabConfig> tabConfig = new SimpleObjectProperty<>();
 	private final Editor editor;
+	private final TabGraphicNode graphic;
 
 	private final TabContentDisplay tabContentDisplay;
 
 	GmTab(TabConfig tabConfig, boolean displayContent, Editor editor){
 		this.tabConfig.set(tabConfig);
 		this.editor = editor;
-		setText(String.valueOf(tabConfig.getTabContent().pathIsFile()));
+		graphic = new TabGraphicNode(tabConfig);
+		setGraphic(graphic);
 		ContextMenu contextMenu = new GmTabContextMenu(this, _ -> showEditor());
 		setContextMenu(contextMenu);
 		tabContentDisplay = displayContent? new TabContentDisplay() : null;
@@ -41,6 +44,7 @@ class GmTab extends Tab {
 	private void setConfig(TabConfig config) {
 		if(tabContentDisplay!=null) tabContentDisplay.setContent(config.getTabContent());
 		tabConfig.set(config);
+		graphic.setConfig(config);
 	}
 
 	void addUpdateListener(ChangeListener<TabConfig> listener){

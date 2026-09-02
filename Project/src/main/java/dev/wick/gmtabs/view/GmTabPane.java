@@ -7,6 +7,7 @@ import dev.wick.gmtabs.tab.TabGraphic;
 import dev.wick.gmtabs.view.editor.Editor;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Side;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
@@ -34,11 +35,10 @@ public class GmTabPane extends TabPane {
 	 * @param loadContent Web viewer will not be loaded if {@code false}. Mainly for testing.
 	 */
 	public GmTabPane(File file, boolean loadContent){
-		getStylesheets().add(STYLESHEET);
 		this.configFile = new ConfigFile(file);
 		this.loadContent = loadContent;
 		load();
-		getTabs().addListener(listListener);
+		getTabs().addListener(this::processListChange);
 		format();
 	}
 
@@ -73,14 +73,16 @@ public class GmTabPane extends TabPane {
 
 
 	private void format(){
+		getStylesheets().add(STYLESHEET);
 		setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		setTabMaxHeight(Double.MAX_VALUE);
+		setSide(Side.BOTTOM);
 	}
 
 
 	private final ChangeListener<TabConfig> tabListener = (_, _, _) -> save();
 
-	@SuppressWarnings("FieldCanBeLocal") //Warning suppressed because it would bloat constructor otherwise.
-	private final ListChangeListener<Tab> listListener = change -> {
+	private void processListChange(ListChangeListener.Change<? extends Tab> change){
 		boolean saveEventOccurred = false;
 		while (change.next()) {
 			if (change.wasRemoved() || change.wasAdded() || change.wasPermutated()) {
@@ -89,7 +91,7 @@ public class GmTabPane extends TabPane {
 			}
 		}
 		if (saveEventOccurred) save();
-	};
+	}
 
 	private void save(){
 		configFile.save(getTabConfigs());

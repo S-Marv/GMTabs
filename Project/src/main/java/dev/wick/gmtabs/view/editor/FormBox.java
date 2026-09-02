@@ -1,8 +1,9 @@
 package dev.wick.gmtabs.view.editor;
 
 import javafx.beans.property.Property;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.util.List;
 
@@ -14,7 +15,8 @@ public class FormBox extends VBox {
 		grid.getStyleClass().add("editor-grid");
 		KeybindingSetter keybindingSetter = new KeybindingSetter(form.getKeybinding());
 		PathSelector pathSelector = new PathSelector(form.isFilePropertyProperty(), form.getWebPath(), form.getFilePath());
-		for(EditorOption option : List.of(pathSelector, keybindingSetter)){
+		ColorSelector colorSelector = new ColorSelector(form.getGraphicColor());
+		for(EditorOption option : List.of(pathSelector, keybindingSetter, colorSelector)){
 			grid.addRow(grid.getRowCount(), option.getLabel(), option.getNode());
 		}
 		GraphicPreview graphicPreview = new GraphicPreview(form);
@@ -27,6 +29,12 @@ public class FormBox extends VBox {
 			for(Property<?> property : List.of(editorForm.getKeybinding(), editorForm.getGraphicColor(), editorForm.getIconPath())){
 				property.addListener((_)->setConfig(editorForm.getTabConfig()));
 			}
+			format();
+		}
+
+		private void format() {
+			this.setPadding(new Insets(5));
+			setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 		}
 	}
 }
