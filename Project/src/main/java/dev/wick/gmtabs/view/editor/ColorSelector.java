@@ -19,12 +19,12 @@ public class ColorSelector extends EditorOption {
 		colorPicker.valueProperty().addListener((_,_,newColor)->{
 			if(newColor == null
 					|| (newColor.getOpacity() == TRANSPARENT.getOpacity() && newColor!= TRANSPARENT)){
-				colorProperty.setValue(TRANSPARENT);
+				colorPicker.valueProperty().setValue(TRANSPARENT);
 			} else {
-				colorProperty.set(newColor);
+				colorPicker.valueProperty().set(newColor);
 			}
 		});
-		colorProperty.bindBidirectional(colorPicker.valueProperty());
+		colorPicker.valueProperty().bindBidirectional(colorProperty);
 	}
 
 	@Override

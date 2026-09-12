@@ -9,7 +9,7 @@ public record TabGraphic(String iconPath, Color color) implements Serializable {
 
 	public TabGraphic(String iconPath, Color color) {
 		this.iconPath = iconPath;
-		this.color = (color != null && color.getOpacity()==Color.TRANSPARENT.getOpacity())? Color.TRANSPARENT : color;
+		this.color = (color == null || color.getOpacity()==Color.TRANSPARENT.getOpacity())? Color.TRANSPARENT : color;
 	}
 
 	@Override
