@@ -38,8 +38,8 @@ public class ZoomUi extends HBox {
 			int newValue = newNumber.intValue();
 			externalZoomProperty.setValue(newValue/100d);
 			zoomLabel.setText(newValue+"%");
-			zoomOutButton.setDisable(newValue>=ZoomController.MAXIMUM);
-			zoomInButton.setDisable(newValue<=ZoomController.MINIMUM);
+			zoomInButton.setDisable(newValue>=ZoomController.MAXIMUM);
+			zoomOutButton.setDisable(newValue<=ZoomController.MINIMUM);
 		});
 	}
 }
