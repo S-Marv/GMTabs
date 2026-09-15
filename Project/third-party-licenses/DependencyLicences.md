@@ -1,0 +1,7 @@
+| Licence                     | Dependencies                                                                                                                                       |
+|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2-Clause BSD License        | [org.panteleyev:jpackage-maven-plugin](https://github.com/petr-panteleyev/jpackage-maven-plugin)                                                   |
+| 3-Clause BSD License        | [ControlsFX](http://www.controlsfx.org/)                                                                                                           |
+| Apache License, Version 2.0 | [Apache Commons IO](https://commons.apache.org/proper/commons-io/),<br/>[Apache Maven Shared Utils](https://commons.apache.org/proper/commons-io/) |
+| Eclipse Public License v2.0 | [Junit Jupiter API/Engine/Params & Platform Commons/Engine API](https://junit.org/junit5/)                                                         |
+| GPLv2+CE                    | [OpenJFx (Base, Controls, Graphics, Media, Web, JDK JSObject)](https://openjdk.java.net/projects/openjfx/)                                         |

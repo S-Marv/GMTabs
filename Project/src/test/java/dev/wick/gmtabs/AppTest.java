@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class HelloApplicationTest {
+class AppTest {
 
 	@ParameterizedTest
 	@CsvSource({"1 ,1", "1.0.1,1.0.1", " 2.20.4,2.20.4"})
@@ -15,7 +15,7 @@ class HelloApplicationTest {
 	@ParameterizedTest
 	@CsvSource({"evil.exe", "1.0.t"})
 	void testGetVersion_wrong(String input){
-		Assertions.assertThrows(RuntimeException.class, ()-> HelloApplication.getVersion(input));
+		Assertions.assertThrows(RuntimeException.class, ()-> App.getVersion(input));
 
 	}
 

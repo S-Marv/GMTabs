@@ -6,10 +6,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HelloApplication extends Application {
+public class App extends Application {
 	private final static String TELEMETRY_ADDENDUM = " (Beta Build)";
 	private static boolean telemetry = false;
 	private static String title = "GMTabs v";
@@ -24,6 +25,7 @@ public class HelloApplication extends Application {
 	}
 
 	public static void main(String[] args) {
+		System.out.println("Executing" + Arrays.toString(args));
 		telemetry = args.length > 1;
 		title+= getVersion(args[0]);
 		launch();
