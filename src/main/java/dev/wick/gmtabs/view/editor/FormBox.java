@@ -8,10 +8,10 @@ import javafx.scene.paint.Color;
 import java.util.List;
 
 public class FormBox extends VBox {
-	private final GridPane grid = new GridPane();
 
 	FormBox(EditorForm form){
 		getStyleClass().add("editor-box");
+		GridPane grid = new GridPane();
 		grid.getStyleClass().add("editor-grid");
 		KeybindingSetter keybindingSetter = new KeybindingSetter(form.getKeybinding());
 		PathSelector pathSelector = new PathSelector(form.isFilePropertyProperty(), form.getWebPath(), form.getFilePath());
