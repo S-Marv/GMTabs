@@ -192,7 +192,7 @@
                         <configuration>
                             <name>${dist.name}</name>
                             <vendor>app.org</vendor>
-                            <arguments>${version} ${telemetry}</arguments>
+                            <arguments>${project.version} ${telemetry}</arguments>
                             <type>APP_IMAGE</type>
                             <removeDestination>false</removeDestination>
                             <modulePaths>
@@ -216,6 +216,7 @@
                             <appContentPaths>
                                 <path>${legal.path}</path>
                             </appContentPaths>
+                            <icon>${project.basedir}/icon.ico</icon> <!-- Win -->
                         </configuration>
 
                         <executions>
@@ -223,7 +224,6 @@
                                 <phase>package</phase>
                                 <goals>
                                     <goal>jpackage</goal>
-                                    <!--<icon>${project.basedir}/icons/icon.ico</icon> Win-->
                                     <!--<icon>${project.basedir}/icons/icon.png</icon> Linux-->
                                     <!--<icon>${project.basedir}/icons/icons.icns</icon> Mac -->
                                 </goals>

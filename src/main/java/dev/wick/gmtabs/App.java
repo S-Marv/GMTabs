@@ -1,6 +1,7 @@
 package dev.wick.gmtabs;
 
 import dev.wick.gmtabs.view.GmTabPane;
+import dev.wick.gmtabs.view.editor.TabGraphicNode;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -21,6 +22,7 @@ public class App extends Application {
 		if(telemetry) title += TELEMETRY_ADDENDUM;
 		stage.setTitle(title);
 		stage.setScene(scene);
+		stage.getIcons().add(TabGraphicNode.ICON);
 		stage.show();
 	}
 
