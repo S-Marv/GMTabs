@@ -27,7 +27,6 @@ public class TabGraphicNode extends VBox {
 	private final Label keybinding = makeKeybindDisplay();
 
 	public TabGraphicNode(TabConfig tabConfig) {
-		System.out.println("TEST");
 		init();
 		if(tabConfig!=null) setConfig(tabConfig);
 	}
