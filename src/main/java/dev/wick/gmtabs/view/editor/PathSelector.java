@@ -8,24 +8,21 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
-
-import java.io.File;
 
 class PathSelector extends EditorOption{
-	private static final String DEFAULT_FILE_BUTTON_TEXT = "Choose File";
 
 	private final TogglePane toggleSwitch;
-	private final Button fileSelectButton = formatNode(new Button(DEFAULT_FILE_BUTTON_TEXT));
+	private final Button fileSelectButton;
 	private final TextField urlField = formatNode(new TextField());
-	private final AnchorPane pathContainer = new AnchorPane(fileSelectButton, urlField);
+	private final AnchorPane pathContainer;
 
 	PathSelector(BooleanProperty isFileProperty, StringProperty webPath, StringProperty filePath){
 		super("Tab Content");
 		toggleSwitch = new TogglePane(isFileProperty);
 		urlField.textProperty().bindBidirectional(webPath);
 		urlField.setPromptText("Website URL");
-		setFileButton(filePath);
+		fileSelectButton = formatNode(new FileChooserButton(filePath));
+		pathContainer = new AnchorPane(fileSelectButton, urlField);
 		toggleSwitch.fileSelectedProperty().addListener((_,_,newValue)-> setContainer(newValue));
 	}
 
@@ -43,30 +40,7 @@ class PathSelector extends EditorOption{
 		return toggleSwitch;
 	}
 
-	private void setFileButton(StringProperty filePath) {
-		FileChooser fileChooser = new FileChooser();
-		fileSelectButton.setOnAction((_)->{
-			fileChooser.setInitialDirectory(getInitialDir(filePath.get()));
-			File file = fileChooser.showOpenDialog(null);
-			String path; String buttonText;
-			if(file==null){
-				path= null;
-				buttonText=DEFAULT_FILE_BUTTON_TEXT;
-			} else {
-				path = file.getAbsolutePath();
-				buttonText = file.getName();
-			}
-			filePath.set(path);
-			fileSelectButton.setText(buttonText);
-		});
-	}
 
-	private static final File DEFAULT_DIR = new File(System.getProperty("user.home"));
-	private static File getInitialDir(String oldPath){
-		if(oldPath == null) return DEFAULT_DIR;
-		File oldFile = new File(oldPath);
-		return oldFile.exists() ? oldFile.getParentFile() : DEFAULT_DIR;
-	}
 
 	private static <T extends Control> T formatNode(T node){
 		format(node);

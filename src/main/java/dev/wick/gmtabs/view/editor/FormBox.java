@@ -16,7 +16,8 @@ public class FormBox extends VBox {
 		KeybindingSetter keybindingSetter = new KeybindingSetter(form.getKeybinding());
 		PathSelector pathSelector = new PathSelector(form.isFilePropertyProperty(), form.getWebPath(), form.getFilePath());
 		ColorSelector colorSelector = new ColorSelector(form.getGraphicColor());
-		for(EditorOption option : List.of(pathSelector, keybindingSetter, colorSelector)){
+		IconSelector iconSelector = new IconSelector(form.getIconPath());
+		for(EditorOption option : List.of(pathSelector, keybindingSetter, colorSelector, iconSelector)){
 			grid.addRow(grid.getRowCount(), option.getLabel(), option.getNode());
 		}
 		GraphicPreview graphicPreview = new GraphicPreview(form);

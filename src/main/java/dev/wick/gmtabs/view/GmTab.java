@@ -24,7 +24,7 @@ class GmTab extends Tab {
 		this.editor = editor;
 		graphic = new TabGraphicNode(tabConfig);
 		setGraphic(graphic);
-		ContextMenu contextMenu = new GmTabContextMenu(this, _ -> showEditor());
+		ContextMenu contextMenu = new GmTabContextMenu(this, _ -> showEditor(), editor);
 		setContextMenu(contextMenu);
 		tabContentDisplay = displayContent? new TabContentDisplay() : null;
 		setContent(tabContentDisplay);

@@ -12,12 +12,14 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyEvent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 public class GmTabPane extends TabPane {
 	static final TabConfig DEFAULT_TAB = new TabConfig(
@@ -40,6 +42,17 @@ public class GmTabPane extends TabPane {
 		load();
 		getTabs().addListener(this::processListChange);
 		format();
+		setOnKeyPressed(this::processKeyEvent);
+	}
+
+	private void processKeyEvent(KeyEvent event) {
+		for(Tab tab : getTabs()){
+			if(tab instanceof GmTab gmTab && gmTab.getConfig().getKeyCombination().match(event)){
+				getSelectionModel().select(tab);
+				event.consume();
+				break;
+			}
+		}
 	}
 
 	/**
